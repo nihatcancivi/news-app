@@ -9,11 +9,18 @@ import UIKit
 
 class NewsViewCell: UITableViewCell {
 
+    
     @IBOutlet weak var newsTitleLabel: UILabel!
+    @IBOutlet weak var newsDescriptionLabel: UILabel!
     @IBOutlet weak var newsImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        //imageView kenar yuvarlatma
+        self.newsImageView.layer.cornerRadius = 10
+        
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

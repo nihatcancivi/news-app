@@ -46,7 +46,11 @@ class ViewController: UIViewController, UITableViewDelegate , UITableViewDataSou
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! NewsViewCell
         let newsViewModel = self.newsArticlesListVM.newsAtIndex(indexPath.row)
         cell.newsTitleLabel.text = newsViewModel.title
+        cell.newsDescriptionLabel.text = newsViewModel.description
+        cell.newsImageView.kf.indicatorType = .activity
         cell.newsImageView.kf.setImage(with: URL(string: newsViewModel.urlToImage),placeholder: UIImage(named: "placeHolder"))
+        
+        
         return cell
     }
 }
