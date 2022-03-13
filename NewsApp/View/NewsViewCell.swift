@@ -20,7 +20,6 @@ class NewsViewCell: UITableViewCell {
         //imageView kenar yuvarlatma
         self.newsImageView.layer.cornerRadius = 10
         
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -91,6 +91,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Haberler" id="csF-o8-rB6"/>
                     <connections>
+                        <outlet property="searchBar" destination="bjx-dP-XGs" id="Qp9-yj-JOW"/>
                         <outlet property="tableView" destination="QOo-EH-baU" id="qEp-xG-23h"/>
                     </connections>
                 </viewController>

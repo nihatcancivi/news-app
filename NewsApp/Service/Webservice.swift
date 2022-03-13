@@ -16,13 +16,10 @@ class Webservice {
                 completion(nil)
             }else if let data = data {
                 let newsList = try? JSONDecoder().decode(News.self, from: data)
-                    
                 if let newsList = newsList?.articles {
-                    completion(newsList)
-                    print(newsList)
-                    }
+                    completion(newsList)//verileri çektikten sonra haber detaylarını döndürüyorum.
+                }
             }
         }.resume()
-        
     }
 }
