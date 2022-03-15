@@ -11,6 +11,7 @@ import Kingfisher
 class ViewController: UIViewController, UITableViewDelegate , UITableViewDataSource ,UISearchBarDelegate {
     
     private var newsArticlesListVM : NewsArticlesListViewModel!
+    private var newsVM : NewsArticlesViewModel!
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -20,13 +21,12 @@ class ViewController: UIViewController, UITableViewDelegate , UITableViewDataSou
         tableView.delegate = self
         tableView.dataSource = self
         searchBar.delegate = self
-        
-        //Herhangi bir alana tıklanılmasını algılamak için view e recognizer verdim.Tıklanıldığında hideKeyboard çalışacak.
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(gestureRecognizer)
-        
+
+        navigationController?.navigationBar.prefersLargeTitles = true //büyük başlık
+       
         getData()
     }
+    
     func getData(){//tüm verileri API den çeker
         let url = URL(string: "https://newsapi.org/v2/top-headlines?country=tr&apiKey=5cd8e19306684af59e9d3c46271c76fe")!
         Webservice().downloadNews(url: url) { news in
@@ -45,12 +45,25 @@ class ViewController: UIViewController, UITableViewDelegate , UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! NewsViewCell
-        let newsViewModel = self.newsArticlesListVM.newsAtIndex(indexPath.row)
-        cell.newsTitleLabel.text = newsViewModel.title
-        cell.newsDescriptionLabel.text = newsViewModel.description
+        self.newsVM = self.newsArticlesListVM.newsAtIndex(indexPath.row)
+        cell.newsTitleLabel.text = self.newsVM.title
+        cell.newsDescriptionLabel.text = self.newsVM.description
         cell.newsImageView.kf.indicatorType = .activity
-        cell.newsImageView.kf.setImage(with: URL(string: newsViewModel.urlToImage),placeholder: UIImage(named: "placeHolder"))
+        cell.newsImageView.kf.setImage(with: URL(string: self.newsVM.urlToImage),placeholder: UIImage(named: "placeHolder"))
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.newsVM = self.newsArticlesListVM.newsAtIndex(indexPath.row)
+        print(newsVM.author)
+        self.performSegue(withIdentifier: "toNewsDetailsVC", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toNewsDetailsVC" {
+            let destinationVC = segue.destination as! NewsDetailsViewController
+            destinationVC.newsArticlesVM = self.newsVM//seçilen satırın modelini diğer sayfaya yolladım.
+       }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {//searchbardaki kelime silinince klavye gizlenir ve tüm verileri getiriyorum.
@@ -78,7 +91,5 @@ class ViewController: UIViewController, UITableViewDelegate , UITableViewDataSou
         }
         searchBar.endEditing(true)//Klavyeden ara tuşuna basıldığında klavyeyi kapatıyorum.
     }
-    @objc func hideKeyboard(){// boş bir alana tıklanıldığında klavye gizleme fonksiyonu
-        view.endEditing(true)
-    }
 }
+

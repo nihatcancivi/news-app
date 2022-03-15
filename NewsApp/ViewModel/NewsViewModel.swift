@@ -33,7 +33,9 @@ struct NewsArticlesViewModel {
     var urlToImage : String {
         return self.newsArticles.urlToImage ?? ""
     }
-   
+    var url : String {
+        return self.newsArticles.url ?? ""
+    }
 }
 
 struct NewsArticlesListViewModel {
