@@ -4,7 +4,8 @@ Swift (UIKit) ,
 MVVM,
 URLSession,
 Core Data,
-Kingfisher
+Kingfisher,
+WebView
 
 #### ScreenShots
 ![1](https://user-images.githubusercontent.com/39503844/158648017-3b5aa3dd-0fca-4994-967b-004ea8e5e5c8.png)
