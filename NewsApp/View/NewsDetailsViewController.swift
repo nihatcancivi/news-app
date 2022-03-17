@@ -30,7 +30,13 @@ class NewsDetailsViewController: UIViewController {
         newsDetailsDateLabel.text = newsArticlesVM.publishedAt
         newsDetailsImageView.kf.setImage(with: URL(string:newsArticlesVM.urlToImage))
         
-        navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(shareURL))
+        let favouriteImage = UIImage(named: "heart")
+        let shareImage = UIImage(named: "share")
+
+        let favouriteButton = UIBarButtonItem(image: favouriteImage, style: .plain, target: self, action: #selector(addFavourite))
+        let shareButton = UIBarButtonItem(image: shareImage, style: .plain, target: self, action: #selector(shareURL))
+        self.navigationItem.rightBarButtonItems = [favouriteButton,shareButton]
+        
     }
     @IBAction func newsSourceButtonClicked(_ sender: Any) {
         url = newsArticlesVM.url
@@ -47,5 +53,10 @@ class NewsDetailsViewController: UIViewController {
             let destinationVC = segue.destination as! WebViewController
             destinationVC.newsUrl = url
        }
+    }
+    @objc func addFavourite(){
+        //CoreDataya haberi kaydettim.
+        Database().saveNews(newsData: newsArticlesVM)
+        print("Fonksiyon çalışacak")
     }
 }
